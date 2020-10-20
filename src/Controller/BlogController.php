@@ -37,7 +37,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/post/{id}", name="blog_by_id", requirements={"id"="\d+"})
+     * @Route("/post/{id}", name="blog_by_id", requirements={"id"="\d+"}, methods={"GET"})
      * @ParamConverter("post", class="App:BlogPost")
      */
     public function post($post)
@@ -47,7 +47,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/post/{slug}", name="blog_by_slug")
+     * @Route("/post/{slug}", name="blog_by_slug", methods={"GET"})
      * The below annotation is not required when $post is typehintned with BlogPost
      * and route paramter name matches nay field on the BlogPost entity
      * @ParamConverter("post", class="App:BlogPost", options={"mapping": {"slug": "slug"}})
@@ -74,5 +74,17 @@ class BlogController extends AbstractController
         $em->flush();
 
         return $this->json($blogPost);
+    }
+
+    /**
+     * @Route("/delete/{id}", name="blog_delete", methods={"DELETE"})
+     */
+    public function delete(BlogPost $post)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($post);
+        $em->flush();
+
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 }
