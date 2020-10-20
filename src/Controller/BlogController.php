@@ -38,22 +38,29 @@ class BlogController extends AbstractController
 
     /**
      * @Route("/post/{id}", name="blog_by_id", requirements={"id"="\d+"})
+     * @ParamConverter("post", class="App:BlogPost")
      */
-    public function post($id)
+    public function post($post)
     {
-        return $this->json(
-            $this->getDoctrine()->getRepository(BlogPost::class)->find($id)
-        );
+        // It's the same as doing find($id) on repository
+        return $this->json($post);
     }
 
     /**
      * @Route("/post/{slug}", name="blog_by_slug")
+     * The below annotation is not required when $post is typehintned with BlogPost
+     * and route paramter name matches nay field on the BlogPost entity
+     * @ParamConverter("post", class="App:BlogPost", options={"mapping": {"slug": "slug"}})
      */
-    public function postBySlug($slug)
+    // public function postBySlug($slug)
+    // {
+    //     return $this->json(
+    //         $this->getDoctrine()->getRepository(BlogPost::class)->findOneBy(['slug' => $slug])
+    //     );
+    // }
+    public function postBySlug($post)
     {
-        return $this->json(
-            $this->getDoctrine()->getRepository(BlogPost::class)->findOneBy(['slug' => $slug])
-        );
+        return $this->json($post);
     }
 
     /**
