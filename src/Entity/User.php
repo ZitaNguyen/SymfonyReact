@@ -39,6 +39,22 @@ class User
      */
     private $email;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\BlogPost", mappedBy="author")
+     */
+    private $posts;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
+     */
+    private $comments;
+
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,5 +106,21 @@ class User
         $this->email = $email;
 
         return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+    
+    /**
+     * @return Collection
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
     }
 }
