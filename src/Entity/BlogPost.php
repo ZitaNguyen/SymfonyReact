@@ -5,7 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\BlogPostRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass=BlogPostRepository::class)
@@ -53,7 +53,7 @@ class BlogPost
 
     public function __construct()
     {
-        $this->comments = new ArrayCollection();
+        $this->comments = new Collection();
 
     }
 
